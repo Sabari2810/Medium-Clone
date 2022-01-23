@@ -1,9 +1,12 @@
+import Link from 'next/link';
 import React from 'react';
+import { fetchPosts } from '../queries';
+import { sanityClient, urlFor } from "../sanity";
 
-const Feed = () => {
+const Feed = ({ posts }: Posts) => {
     return <div className='max-w-screen-lg mx-auto'>
         {/* Banner */}
-        <div className='h-80 px-10 flex justify-between items-center bg-yellow-300'>
+        <div className='h-80 px-10 py-44 sm:py-0 flex justify-between items-center bg-yellow-300'>
             <div className='space-y-3'>
                 <h1 className='text-6xl font-serif max-w-lg'>
                     <span className="underline decoration-black">
@@ -17,8 +20,33 @@ const Feed = () => {
             </div>
         </div>
         {/* Blog Feed */}
-        {/*  */}
+        <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 p-2 lg:grid-cols-3'>
+            {posts.map((post) => (
+                <Link key={post._id} href={`/posts/${post.slug.current}`}>
+                    <div className='group border-2 rounded-lg overflow-hidden'>
+                        <img
+                            className='h-60 w-full object-cover rounded-t-md group-hover:scale-105 transition-all ease-in-out'
+                            src={
+                                urlFor(post.mainImage).url()!
+                            } alt="" />
+                        <div className='flex items-center justify-between bg-white p-3'>
+                            <div>
+                                <p className='text-lg font-bold'>{post.title}</p>
+                                <p className='text-sm'>{post.description} by {post.author.name}</p>
+                            </div>
+                            <img
+                                className='h-12 w-12 rounded-full'
+                                src={
+                                    urlFor(post.author.image).url()!
+                                } alt="" />
+                        </div>
+                    </div>
+                </Link>
+            ))}
+        </div>
     </div>;
 };
 
 export default Feed;
+
+
