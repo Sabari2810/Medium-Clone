@@ -9,7 +9,9 @@
     "next": "latest",
     "next-sanity": "^0.4.0",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.25.0",
+    "react-portable-text": "^0.4.3"
   },
   "devDependencies": {
     "@sanity/cli": "^2.25.0",

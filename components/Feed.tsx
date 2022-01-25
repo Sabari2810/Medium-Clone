@@ -22,7 +22,7 @@ const Feed = ({ posts }: Posts) => {
         {/* Blog Feed */}
         <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 p-2 lg:grid-cols-3'>
             {posts.map((post) => (
-                <Link key={post._id} href={`/posts/${post.slug.current}`}>
+                <Link key={post._id} href={`/post/${post.slug.current}`}>
                     <div className='group border-2 rounded-lg overflow-hidden'>
                         <img
                             className='h-60 w-full object-cover rounded-t-md group-hover:scale-105 transition-all ease-in-out'

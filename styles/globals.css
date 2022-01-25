@@ -6,3 +6,9 @@ body,
 html {
   font-family: sans-serif;
 }
+
+@layer components {
+  .txtbox {
+    @apply shadow shadow-slate-300 border border-slate-200 p-1 pl-3 focus:outline-none;
+  }
+}

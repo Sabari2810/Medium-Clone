@@ -20,6 +20,7 @@ export const fetchSlugs: string = `
 export const fetchPost: string = `
   *[_type == "post" && slug.current == $slug][0]{
     _id,
+    _createdAt,
     title,
     author-> {
      name,
@@ -28,4 +29,5 @@ export const fetchPost: string = `
     description,
     mainImage,
     slug,
+    body
   }`;
