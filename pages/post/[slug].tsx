@@ -18,14 +18,14 @@ interface IFormInput {
 }
 
 const Post = ({ post }: Props) => {
-    const { formState: { errors }, handleSubmit, register } = useForm<IFormInput>();
+    const { formState: { errors }, handleSubmit, register, reset } = useForm<IFormInput>();
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
         await fetch("/api/createComment", {
             method: "POST",
             body: JSON.stringify(data)
         }).then((val) => {
-
+            reset();
         }).catch((err) => {
 
         })
@@ -94,7 +94,7 @@ const Post = ({ post }: Props) => {
                     <textarea placeholder='Leave your comment'
                         {...register("comment", { required: true })}
                         className='txtbox h-48'
-                        maxLength={8} />
+                        rows={8} />
                 </label>
                 <div className='space-y-2 p-5'>
                     {errors.name && (
