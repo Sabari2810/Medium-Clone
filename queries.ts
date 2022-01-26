@@ -26,6 +26,9 @@ export const fetchPost: string = `
      name,
      image
     },
+    "comments" : *[
+      _type == "comment" && post._ref == ^._id && approved == true
+    ],
     description,
     mainImage,
     slug,

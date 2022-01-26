@@ -9,6 +9,11 @@ export default {
       type: "string",
     },
     {
+      name: "approved",
+      title: "Approved",
+      type: "boolean",
+    },
+    {
       name: "email",
       title: "Email",
       type: "string",

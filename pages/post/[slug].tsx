@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import React from 'react';
+import React, { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import PortableText from 'react-portable-text';
 import Header from '../../components/Header';
@@ -18,19 +18,29 @@ interface IFormInput {
 }
 
 const Post = ({ post }: Props) => {
+    const [submitted, setSubmitted] = useState(false);
+    const [isLoading, setIsloading] = useState(false);
+
     const { formState: { errors }, handleSubmit, register, reset } = useForm<IFormInput>();
 
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+        setIsloading(true);
         await fetch("/api/createComment", {
             method: "POST",
             body: JSON.stringify(data)
         }).then((val) => {
+            setSubmitted(true);
+            setIsloading(false);
             reset();
-        }).catch((err) => {
+            setTimeout(() => {
+                setSubmitted(false);
+            }, 2000);
 
+        }).catch((err) => {
+            setIsloading(false);
         })
     }
-    return <div>
+    return <div className='relative'>
         <Header />
         <img className='w-full h-40 object-cover' src={urlFor(post.mainImage).url()!} alt="" />
         <article className='max-w-3xl mx-auto p-3'>
@@ -108,9 +118,30 @@ const Post = ({ post }: Props) => {
                     )}
                 </div>
                 <button className='w-full text-center mt-2 bg-yellow-500 p-2 text-white
-                 rounded-md'>Comment</button>
+                 rounded-md'>{
+                        isLoading ? "Submitting..." : "Comment"
+                    }</button>
             </form>
+            <div className='shadow max-w-2xl shadow-yellow-400 p-10 my-4'>
+                <h3 className='text-4xl'>Comments</h3>
+                <hr className='my-3' />
+                {
+                    post.comments.map((comment) => (
+                        <div className='flex items-center space-x-2' key={comment._id}>
+                            <p className='text-yellow-400'>{comment.name}:</p>
+                            <p>{comment.comment}</p>
+                        </div>
+                    ))
+                }
+            </div>
         </article>
+        <div className={`
+        ${submitted ? "inline-block" : "hidden"}
+        absolute z-50 bottom-2 animate-slideUp right-2 transition-all`}>
+            <p className='px-4 py-2 bg-green-700 rounded-sm text-white'>Comment Submitted </p>
+        </div>
+
+
     </div>;
 };
 
